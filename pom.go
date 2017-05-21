@@ -129,3 +129,12 @@ const kpomText = `
     </build>
 </project>
 `
+
+const gitignoreText = `
+# Maven output
+target/
+
+# IDE files
+.idea/
+*.iml
+`

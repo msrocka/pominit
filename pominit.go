@@ -14,6 +14,7 @@ func main() {
 		kotlin = arg == "kotlin" || arg == "kt"
 	}
 	pom(kotlin)
+	writeFile(".gitignore", gitignoreText)
 	if kotlin {
 		os.MkdirAll("src/main/kotlin/app", os.ModePerm)
 		os.MkdirAll("src/test/kotlin/tests", os.ModePerm)
