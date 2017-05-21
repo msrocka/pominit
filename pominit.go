@@ -7,31 +7,53 @@ import (
 )
 
 func main() {
-	pom()
-	os.MkdirAll("src/main/java", os.ModePerm)
-	os.MkdirAll("src/test/java/tests", os.ModePerm)
-	test()
-}
-
-func pom() {
-	if fileExists("pom.xml") {
-		fmt.Println("pom.xml already exists")
-		return
+	kotlin := false
+	if len(os.Args) > 1 {
+		arg := os.Args[1]
+		arg = strings.ToLower(arg)
+		kotlin = arg == "kotlin" || arg == "kt"
 	}
-	file, err := os.Create("pom.xml")
-	check(err)
-	file.WriteString(strings.TrimLeft(pomText, "\n"))
+	pom(kotlin)
+	if kotlin {
+		os.MkdirAll("src/main/kotlin/app", os.ModePerm)
+		os.MkdirAll("src/test/kotlin/tests", os.ModePerm)
+	} else {
+		os.MkdirAll("src/main/java", os.ModePerm)
+		os.MkdirAll("src/test/java/tests", os.ModePerm)
+	}
+	test(kotlin)
+	if kotlin {
+		writeFile("src/main/kotlin/app/app.kt", kappText)
+	}
 }
 
-func test() {
-	path := "src/test/java/tests/ATest.java"
+func pom(kotlin bool) {
+	if kotlin {
+		writeFile("pom.xml", kpomText)
+	} else {
+		writeFile("pom.xml", jpomText)
+	}
+}
+
+func test(kotlin bool) {
+	if kotlin {
+		path := "src/test/kotlin/tests/ATest.kt"
+		writeFile(path, ktestText)
+	} else {
+		path := "src/test/java/tests/ATest.java"
+		writeFile(path, jtestText)
+	}
+}
+
+func writeFile(path string, content string) {
 	if fileExists(path) {
 		fmt.Println(path, "already exists")
 		return
 	}
 	file, err := os.Create(path)
 	check(err)
-	file.WriteString(strings.TrimLeft(testText, "\n"))
+	defer file.Close()
+	file.WriteString(strings.TrimLeft(content, "\n"))
 }
 
 func fileExists(name string) bool {
