@@ -83,3 +83,21 @@ public class ATest {
 const runBatTemplate = `
 mvn compile exec:java -Dexec.mainClass="{{.Package}}.Main" -q
 `
+
+const editorConfigTemplate = `
+# see https://editorconfig.org/
+
+root = true
+
+[*]
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.xml]
+indent_style = space
+indent_size = 4
+
+[*.java]
+indent_style = tab
+`

@@ -28,9 +28,10 @@ func main() {
 	// resources in main folder: pom.xml; gitignore
 	writeTemplateFile(dir+"pom.xml", pomTemplate,
 		struct{ Artifact string }{artifact})
-	writeFile(dir+".gitignore", gitignoreTemplate)
 	writeTemplateFile(dir+"run.bat", runBatTemplate,
 		struct{ Package string }{artifact})
+	writeFile(dir+".gitignore", gitignoreTemplate)
+	writeFile(dir+".editorconfig", editorConfigTemplate)
 
 	// src/jave folder with sample main
 	os.MkdirAll(dir+"src/main/java/"+artifact, os.ModePerm)
@@ -38,8 +39,8 @@ func main() {
 		mainTemplate, struct{ Package string }{artifact})
 
 	// test folder with sample test
-	os.MkdirAll(dir+"src/test/java/tests/"+artifact, os.ModePerm)
-	writeTemplateFile(dir+"src/test/java/tests/"+artifact+"/ATest.java",
+	os.MkdirAll(dir+"src/test/java/"+artifact, os.ModePerm)
+	writeTemplateFile(dir+"src/test/java/"+artifact+"/ATest.java",
 		testTemplate, struct{ Package string }{artifact})
 }
 
@@ -57,10 +58,14 @@ func writeFile(path string, content string) {
 		return
 	}
 	fmt.Println("Write file", path)
+	if strings.HasSuffix(path, ".java") {
+		content = strings.Replace(content, "    ", "\t", -1)
+	}
 	file, err := os.Create(path)
 	check(err)
 	defer file.Close()
-	file.WriteString(strings.TrimLeft(content, "\n"))
+	_, err = file.WriteString(strings.TrimLeft(content, "\n"))
+	check(err)
 }
 
 func fileExists(name string) bool {
