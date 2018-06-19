@@ -1,6 +1,5 @@
 package main
 
-// jpomText is the text of a Java 8 based Maven project.
 const pomTemplate = `
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -79,4 +78,8 @@ public class ATest {
         Assert.assertTrue(true);
     }
 }
+`
+
+const runBatTemplate = `
+mvn compile exec:java -Dexec.mainClass="{{.Package}}.Main" -q
 `

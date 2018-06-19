@@ -25,10 +25,12 @@ func main() {
 	}
 	fmt.Println("Create project files", artifact, "in folder", dir)
 
+	// resources in main folder: pom.xml; gitignore
 	writeTemplateFile(dir+"pom.xml", pomTemplate,
 		struct{ Artifact string }{artifact})
-
 	writeFile(dir+".gitignore", gitignoreTemplate)
+	writeTemplateFile(dir+"run.bat", runBatTemplate,
+		struct{ Package string }{artifact})
 
 	// src/jave folder with sample main
 	os.MkdirAll(dir+"src/main/java/"+artifact, os.ModePerm)

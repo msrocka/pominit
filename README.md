@@ -10,11 +10,12 @@ is given it will create the maven project directly in the respective folder
 where `pominit` is called and will take the name of the surrounding folder as
 `artifactId`.
 
+It will then create the following things:
 
-* a `pom.xml` with just a JUnit dependency
-* a `src/main/java` folder
-* a simple JUnit test: `src/test/java/tests/ATest.java`
+* A `Main` class and a `run` script which should print `"Works!"` when you
+  execute it
+* A sample test `ATest` which you can execute via `mvn test`
+* Additional resource files like a `.gitignore`, `.editorconfig` etc.
 
-You can run the `mvn test` to execute the unit tests. The created project can
-be used in combination with the 
-[Language support for Java ™ for Visual Studio Code](https://github.com/redhat-developer/vscode-java).
+The generated project should work fine with the 
+[VSCode Java Extension](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack).
