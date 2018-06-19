@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"text/template"
 )
 
 func main() {
@@ -14,49 +15,32 @@ func main() {
 
 	if len(os.Args) > 1 {
 		artifact = os.Args[1]
-		dir = "./" + artifact
+		dir = "./" + artifact + "/"
 		os.MkdirAll(dir, os.ModePerm)
 	} else {
 		absPath, err := filepath.Abs(filepath.Dir(os.Args[0]))
 		check(err)
 		artifact = filepath.Base(absPath)
-		dir = "."
+		dir = "./"
 	}
 	fmt.Println("Create project files", artifact, "in folder", dir)
 
-	/*
-		pom(kotlin)
-		writeFile(".gitignore", gitignoreText)
-		if kotlin {
-			os.MkdirAll("src/main/kotlin/app", os.ModePerm)
-			os.MkdirAll("src/test/kotlin/tests", os.ModePerm)
-		} else {
-			os.MkdirAll("src/main/java", os.ModePerm)
-			os.MkdirAll("src/test/java/tests", os.ModePerm)
-		}
-		test(kotlin)
-		if kotlin {
-			writeFile("src/main/kotlin/app/app.kt", kappText)
-		}
-	*/
+	writeTemplateFile(dir+"pom.xml", pomTemplate,
+		struct{ Artifact string }{artifact})
+
+	writeFile(dir+".gitignore", gitignoreText)
+
+	os.MkdirAll(dir+"src/main/java/"+artifact, os.ModePerm)
+	os.MkdirAll(dir+"src/test/java/tests/"+artifact, os.ModePerm)
+	writeFile(dir+"src/test/java/tests/ATest.java", jtestText)
 }
 
-func pom(kotlin bool) {
-	if kotlin {
-		writeFile("pom.xml", kpomText)
-	} else {
-		writeFile("pom.xml", jpomText)
-	}
-}
-
-func test(kotlin bool) {
-	if kotlin {
-		path := "src/test/kotlin/tests/ATest.kt"
-		writeFile(path, ktestText)
-	} else {
-		path := "src/test/java/tests/ATest.java"
-		writeFile(path, jtestText)
-	}
+func writeTemplateFile(path string, templ string, args interface{}) {
+	t, err := template.New("pom").Parse(templ)
+	check(err)
+	var buffer strings.Builder
+	t.Execute(&buffer, args)
+	writeFile(path, buffer.String())
 }
 
 func writeFile(path string, content string) {
@@ -64,6 +48,7 @@ func writeFile(path string, content string) {
 		fmt.Println(path, "already exists")
 		return
 	}
+	fmt.Println("Write file", path)
 	file, err := os.Create(path)
 	check(err)
 	defer file.Close()
