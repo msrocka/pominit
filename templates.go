@@ -42,7 +42,7 @@ const pomTemplate = `
 </project>
 `
 
-const gitignoreText = `# Maven output
+const gitignoreTemplate = `# Maven output
 target/
 
 # IDE files
@@ -52,4 +52,31 @@ target/
 .project
 .settings/
 .vscode
+`
+
+const mainTemplate = `
+package {{.Package}};
+
+public class Main {
+
+    public static void main(String[] args) {
+        System.out.println("Works!");
+    }
+}
+`
+
+const testTemplate = `
+package {{.Package}};
+
+import org.junit.Assert;
+import org.junit.Test;
+
+public class ATest {
+
+    @Test
+    public void test() {
+        System.out.println("running a test ...");
+        Assert.assertTrue(true);
+    }
+}
 `

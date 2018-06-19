@@ -28,11 +28,17 @@ func main() {
 	writeTemplateFile(dir+"pom.xml", pomTemplate,
 		struct{ Artifact string }{artifact})
 
-	writeFile(dir+".gitignore", gitignoreText)
+	writeFile(dir+".gitignore", gitignoreTemplate)
 
+	// src/jave folder with sample main
 	os.MkdirAll(dir+"src/main/java/"+artifact, os.ModePerm)
+	writeTemplateFile(dir+"src/main/java/"+artifact+"/Main.java",
+		mainTemplate, struct{ Package string }{artifact})
+
+	// test folder with sample test
 	os.MkdirAll(dir+"src/test/java/tests/"+artifact, os.ModePerm)
-	writeFile(dir+"src/test/java/tests/ATest.java", jtestText)
+	writeTemplateFile(dir+"src/test/java/tests/"+artifact+"/ATest.java",
+		testTemplate, struct{ Package string }{artifact})
 }
 
 func writeTemplateFile(path string, templ string, args interface{}) {
