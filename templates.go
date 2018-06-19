@@ -101,3 +101,9 @@ indent_size = 4
 [*.java]
 indent_style = tab
 `
+
+const jdtPrefsTemplate = `
+eclipse.preferences.version=1
+org.eclipse.jdt.core.formatter.join_wrapped_lines=false
+org.eclipse.jdt.core.formatter.lineSplit=80
+`

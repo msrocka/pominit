@@ -32,6 +32,8 @@ func main() {
 		struct{ Package string }{artifact})
 	writeFile(dir+".gitignore", gitignoreTemplate)
 	writeFile(dir+".editorconfig", editorConfigTemplate)
+	os.MkdirAll(dir+".settings", os.ModePerm)
+	writeFile(dir+".settings/org.eclipse.jdt.core.prefs", jdtPrefsTemplate)
 
 	// src/jave folder with sample main
 	os.MkdirAll(dir+"src/main/java/"+artifact, os.ModePerm)
