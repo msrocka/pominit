@@ -3,29 +3,42 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
 func main() {
-	kotlin := false
+
+	var dir string
+	var artifact string
+
 	if len(os.Args) > 1 {
-		arg := os.Args[1]
-		arg = strings.ToLower(arg)
-		kotlin = arg == "kotlin" || arg == "kt"
-	}
-	pom(kotlin)
-	writeFile(".gitignore", gitignoreText)
-	if kotlin {
-		os.MkdirAll("src/main/kotlin/app", os.ModePerm)
-		os.MkdirAll("src/test/kotlin/tests", os.ModePerm)
+		artifact = os.Args[1]
+		dir = "./" + artifact
+		os.MkdirAll(dir, os.ModePerm)
 	} else {
-		os.MkdirAll("src/main/java", os.ModePerm)
-		os.MkdirAll("src/test/java/tests", os.ModePerm)
+		absPath, err := filepath.Abs(filepath.Dir(os.Args[0]))
+		check(err)
+		artifact = filepath.Base(absPath)
+		dir = "."
 	}
-	test(kotlin)
-	if kotlin {
-		writeFile("src/main/kotlin/app/app.kt", kappText)
-	}
+	fmt.Println("Create project files", artifact, "in folder", dir)
+
+	/*
+		pom(kotlin)
+		writeFile(".gitignore", gitignoreText)
+		if kotlin {
+			os.MkdirAll("src/main/kotlin/app", os.ModePerm)
+			os.MkdirAll("src/test/kotlin/tests", os.ModePerm)
+		} else {
+			os.MkdirAll("src/main/java", os.ModePerm)
+			os.MkdirAll("src/test/java/tests", os.ModePerm)
+		}
+		test(kotlin)
+		if kotlin {
+			writeFile("src/main/kotlin/app/app.kt", kappText)
+		}
+	*/
 }
 
 func pom(kotlin bool) {
