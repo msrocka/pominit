@@ -28,8 +28,6 @@ func main() {
 	// resources in main folder: pom.xml; gitignore
 	writeTemplateFile(dir+"pom.xml", pomTemplate,
 		struct{ Artifact string }{artifact})
-	writeTemplateFile(dir+"run.bat", runBatTemplate,
-		struct{ Package string }{artifact})
 	writeFile(dir+".gitignore", gitignoreTemplate)
 	writeFile(dir+".editorconfig", editorConfigTemplate)
 	os.MkdirAll(dir+".settings", os.ModePerm)

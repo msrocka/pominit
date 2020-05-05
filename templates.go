@@ -32,8 +32,8 @@ const pomTemplate = `
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.13</source>
+                    <target>1.13</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -95,10 +95,6 @@ public class ATest {
         Assert.assertTrue(true);
     }
 }
-`
-
-const runBatTemplate = `
-mvn compile exec:java -Dexec.mainClass="{{.Package}}.Main" -q
 `
 
 const editorConfigTemplate = `
