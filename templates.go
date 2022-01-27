@@ -2,59 +2,59 @@ package main
 
 const pomTemplate = `
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+	<modelVersion>4.0.0</modelVersion>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-  <groupId>{{.Artifact}}</groupId>
-  <artifactId>{{.Artifact}}</artifactId>
-  <version>0.0.1</version>
+	<groupId>{{.Artifact}}</groupId>
+	<artifactId>{{.Artifact}}</artifactId>
+	<version>0.0.1</version>
 
-  <dependencies>
+	<dependencies>
 
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
-      <scope>test</scope>
-    </dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
+			<scope>test</scope>
+		</dependency>
 
-  </dependencies>
+	</dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>14</source>
-          <target>14</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.1.2</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/lib</outputDirectory>
-              <includeScope>runtime</includeScope>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.9.0</version>
+				<configuration>
+					<source>17</source>
+					<target>17</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
 `
 
@@ -75,9 +75,9 @@ package {{.Package}};
 
 public class Main {
 
-  public static void main(String[] args) {
-    System.out.println("Works!");
-  }
+	public static void main(String[] args) {
+		System.out.println("Works!");
+	}
 }
 `
 
@@ -89,11 +89,11 @@ import org.junit.Test;
 
 public class ATest {
 
-  @Test
-  public void test() {
-    System.out.println("running a test ...");
-    Assert.assertTrue(true);
-  }
+	@Test
+	public void test() {
+		System.out.println("running a test ...");
+		Assert.assertTrue(true);
+	}
 }
 `
 
@@ -106,8 +106,11 @@ root = true
 charset = utf-8
 insert_final_newline = true
 trim_trailing_whitespace = true
-indent_style = space
+
+[*.{java, xml}]
+indent_style = tab
 indent_size = 2
+tab_width = 2
 `
 
 const jdtPrefsTemplate = `
