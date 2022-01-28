@@ -8,6 +8,8 @@ const pomTemplate = `
 	<modelVersion>4.0.0</modelVersion>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.target>17</maven.compiler.target>
+  	<maven.compiler.source>17</maven.compiler.source>
 	</properties>
 
 	<groupId>{{.Artifact}}</groupId>
@@ -15,46 +17,13 @@ const pomTemplate = `
 	<version>0.0.1</version>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.9.0</version>
-				<configuration>
-					<source>17</source>
-					<target>17</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.1.2</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<includeScope>runtime</includeScope>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>
 `
 
@@ -87,7 +56,7 @@ package {{.Package}};
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ATest {
+public class SimpleTest {
 
 	@Test
 	public void test() {
@@ -107,14 +76,28 @@ charset = utf-8
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{java, xml}]
+[*.{java,xml}]
 indent_style = tab
 indent_size = 2
 tab_width = 2
+
+[*.{md}]
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+[*.{py}]
+indent_style = space
+indent_size = 4
+tab_width = 4
 `
 
 const jdtPrefsTemplate = `
 eclipse.preferences.version=1
 org.eclipse.jdt.core.formatter.join_wrapped_lines=false
 org.eclipse.jdt.core.formatter.lineSplit=80
+`
+
+const readmeTemplate = `
+# {{.Artifact}}
 `
